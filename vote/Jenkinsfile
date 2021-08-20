@@ -2,25 +2,20 @@ pipeline{
 
   agent {
     docker{
-       image 'node:8.16.0-alpine'
+       image 'python:2.7.16-slim'
     }
   }
-
-
-//  tools{
-//    nodejs 'NodeJS 8.9.0'
-//  }
 
   stages{
 
     stage('build'){
       when{
-        changeset  "**/result/**"
+        changeset  "**/vote/**"
       }
       steps{
           echo 'Compiling Result App'
-          dir('result'){
-              sh 'npm install'
+          dir('vote'){
+              sh 'pip install -r requiremnts.txt'
           }
 
       }
@@ -28,21 +23,21 @@ pipeline{
 
     stage('test'){
         when{
-            changeset "**/result/**"
+            changeset "**/vote/**"
         }
         steps{
             echo "Running Unit Test on result app"
-            dir('result'){
-                sh 'npm test'
+            dir('vote'){
+                sh 'nosetests -v'
             }
         }
-
     }
   }
+
   post{
     always{
 
-      echo 'Multibranch pipeline for result is completed..'
+      echo 'Multibranch pipeline for Vote is completed..'
     }
 
     failure{
