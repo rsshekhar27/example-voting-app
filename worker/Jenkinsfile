@@ -10,7 +10,7 @@ pipeline{
       when{
           changeset "**/worker/**"
       }
-      
+
       steps{
         echo 'Compiling Worker App'
         dir('worker'){
@@ -33,11 +33,12 @@ pipeline{
     }
 
     stage("package"){
+      when{
+            branch 'master'
+            changeset "**/worker/**"
+      }
+      
       steps{
-        when{
-              branch 'master'
-              changeset "**/worker/**"
-        }
 
         echo 'Packaging worker app'
         dir('worker'){
