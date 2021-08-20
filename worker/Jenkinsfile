@@ -2,7 +2,7 @@ pipeline{
   agent any
 
   tools{
-    maven 'maven 3.6.1'
+    maven 'maven 3.8.2'
   }
 
   stages{
@@ -10,7 +10,7 @@ pipeline{
       steps{
         echo 'Compiling Worker App'
         dir('worker'){
-          sh 'mvn complete'
+          sh 'mvn compile'
         }
       }
     }
