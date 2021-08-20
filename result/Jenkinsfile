@@ -1,0 +1,43 @@
+pipeline{
+
+  agent {
+    docker{
+       image 'node:8.16.0-alpine'
+    }
+  }
+
+
+//  tools{
+//    nodejs 'NodeJS 8.9.0'
+//  }
+
+  stages{
+
+    stage('build'){
+      when{
+        changeset  "**/result/**"
+      }
+      steps{
+          echo 'Compiling Result App'
+          dir('result'){
+              sh 'npm install'
+          }
+
+      }
+    }
+
+    stage('test'){
+        when{
+            changeset "**/result/**"
+        }
+        steps{
+            echo "Running Unit Test on result app"
+            dir('result'){
+                sh 'npm test'
+            }
+        }
+
+
+    }
+  }
+}
