@@ -63,10 +63,10 @@ pipeline{
     stage("docker-package"){
       agent any
 
-//      when{
-//            branch 'master'
-//            changeset "**/worker/**"
-//      }
+      when{
+            branch 'master'
+            changeset "**/worker/**"
+      }
 
       steps{
 
