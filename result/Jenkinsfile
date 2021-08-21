@@ -1,19 +1,17 @@
 pipeline{
-
-  agent {
-    docker{
-       image 'node:8.16.0-alpine'
-    }
-  }
-
+  agent none
 
 //  tools{
 //    nodejs 'NodeJS 8.9.0'
 //  }
 
   stages{
-
     stage('build'){
+      agent {
+        docker{
+           image 'node:8.16.0-alpine'
+        }
+      }
       when{
         changeset  "**/result/**"
       }
@@ -27,16 +25,43 @@ pipeline{
     }
 
     stage('test'){
+      agent {
+        docker{
+           image 'node:8.16.0-alpine'
+        }
+      }
         when{
             changeset "**/result/**"
         }
         steps{
             echo "Running Unit Test on result app"
             dir('result'){
+                sh 'npm install'
                 sh 'npm test'
             }
         }
 
+    }
+    stage("docker-package"){
+      agent any
+
+      when{
+            changeset "**/result/**"
+            branch 'master'
+      }
+
+      steps{
+
+        echo 'Packaging result app with docker'
+        script{
+            docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin'){
+            def resultImage = docker.build("rsshekhar/result:v${env.BUILD_ID}", "./result")
+                resultImage.push()
+                resultImage.push("${env.BRANCH_NAME}")
+                resultImage.push("latest")
+            }
+        }
+      }
     }
   }
   post{
