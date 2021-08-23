@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 pipeline{
   agent none
 
@@ -462,4 +461,3 @@ pipeline {
 
   }
 }
->>>>>>> 98ce178ad5012baeb0c18aeb6de6037501621a10
