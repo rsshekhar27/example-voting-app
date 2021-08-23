@@ -82,7 +82,7 @@ pipeline{
       }
     }
 
-    stage('result build'){
+    stage("result build"){
       agent {
         docker{
            image 'node:8.16.0-alpine'
@@ -100,7 +100,7 @@ pipeline{
       }
     }
 
-    stage('result test'){
+    stage("result test"){
       agent {
         docker{
            image 'node:8.16.0-alpine'
@@ -140,7 +140,7 @@ pipeline{
       }
     }
 
-    stage('vote build'){
+    stage("vote build"){
       agent {
         docker{
            image 'python:2.7.16-slim'
@@ -159,7 +159,7 @@ pipeline{
       }
     }
 
-    stage('vote test'){
+    stage("vote test"){
         agent {
           docker{
              image 'python:2.7.16-slim'
